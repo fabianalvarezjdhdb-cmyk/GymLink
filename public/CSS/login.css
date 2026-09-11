@@ -1,0 +1,85 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#0f172a;/*fondop*/
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-container{
+    width:450px;
+    background:white;/*fondo de container*/
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    text-align:center;
+}
+
+.logo{
+    color:#2563eb;/*Gymlink*/
+    font-size:48px;
+    margin-bottom:15px;
+}
+
+h2{
+    margin-bottom:30px;
+    color:#1e293b;/*iniciar sesion*/
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+input{
+    padding:15px;
+    border:1px solid #dbd1d1;/*bordos de correo y contraseña*/
+    border-radius:10px;
+    font-size:16px;
+}
+
+input:focus{
+    outline:none;
+    border-color:#0051ff;/*bordos de correo y contraseña al seleccionar*/
+}
+
+button{
+    background:#2563eb;/*ingresar*/
+    color:white;/*letras*/
+    border:none;
+    padding:15px;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#1d4ed8;/*al seleccionar*/
+}
+
+p{
+    margin-top:20px;
+    color:#64748b;/*no tienes cuenta*/
+}
+
+p a{
+    text-decoration:none;
+    color:#2563eb;/*registrarse*/
+    font-weight:bold;
+}
+
+.volver{
+    display:inline-block;
+    margin-top:20px;
+    text-decoration:none;
+    color:#334155;/*volver al inicio*/
+}

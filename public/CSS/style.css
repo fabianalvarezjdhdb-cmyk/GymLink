@@ -1,0 +1,183 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    background-color:#f5f7fa;/*Fondo de nuestras sedes disponibles */
+    color:#000000;/*letras pequeñas desdes sedes hasta que es gymlink*/
+    line-height:1.6;
+}
+
+
+header{
+    background:#1E293B;/*fondo de barra de tareas de arriba*/
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 8%;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo h1{
+    color:#8FA3FA;/*GYMLINK*/
+    font-size:2rem;
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+    gap:25px;
+}
+
+nav a{
+    color:white;/*Iniciar sesion*/
+    text-decoration:none;
+    font-weight:500;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#8FA3FA;/*Navegador de iniciar sesion*/
+}
+
+.hero{
+    min-height:85vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:40px;
+    color:white;/*titulo de la imagen*/
+    background:
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),/*desbanecido de la imagen*/
+    url("../IMG/gymlink.avif");
+    background-size:cover;
+    background-position:center;
+}
+
+.hero h2{
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+.hero p{
+    max-width:700px;
+    font-size:1.2rem;
+    margin-bottom:30px;
+}
+
+.btn{
+    display:inline-block;
+    background:#8FA3FA;/*Explorar gimnasios*/
+    color:white;/*letras*/
+    text-decoration:none;
+    padding:15px 35px;
+    border-radius:50px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#7288E8;/*select Explorar gimnasios*/
+    transform:translateY(-3px);
+}
+
+.servicios{
+    padding:80px 8%;
+    text-align:center;
+}
+
+.servicios h2{
+    font-size:2.5rem;
+    margin-bottom:50px;
+    color:#1E293B;/*nuestras sedes disponibles*/
+}
+
+.contenedor-servicios{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+.card{
+    background:white; /*Fondo de los recuadros de nuestras sedes disponibles*/
+    width:320px;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0, 0, 0, 0.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 10px 25px rgba(143,163,250,0.3);
+}
+
+.card h3{
+    color:#8FA3FA;/*titulos de los recuadros*/
+    margin-bottom:15px;
+}
+
+/* NOSOTROS */
+
+.nosotros{
+    background:white; /*fondo de niveles de entrenamiento*/
+    padding:80px 10%;
+    text-align:center;
+}
+
+.nosotros h2{
+    font-size:2.5rem;
+    margin-bottom:20px;
+    color:#1E293B; /*niveles de entrenamiento*/
+}
+
+.nosotros p{
+    max-width:900px;
+    margin:auto;
+    font-size:1.1rem;
+}
+
+/* contacto general */
+
+footer{
+    background:#1E293B;/*fondo*/
+    color:white;/*letras*/ 
+    text-align:center;
+    padding:25px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+    header{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    nav ul{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero h2{
+        font-size:2rem;
+    }
+
+    .hero p{
+        font-size:1rem;
+    }
+
+    .card{
+        width:100%;
+        max-width:350px;
+    }
+}

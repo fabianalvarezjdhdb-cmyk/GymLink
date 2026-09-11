@@ -1,0 +1,187 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/*Fondo*/
+body {
+    display: flex;
+    background-color: #f1f5f9;
+    min-height: 100vh;
+}
+/*barra tareas*/
+.sidebar {
+    width: 260px;
+    background-color: #0f172a; 
+    color: #ffffff;
+    padding: 30px 20px;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin-bottom: 8px;
+}
+
+.sidebar ul li a {
+    display: block;
+    color: #94a5b8; /*color de letras de barra de tareas*/
+    text-decoration: none;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+/*color de selecciòn de letras de barra de tareas*/
+.sidebar ul li a:hover {
+    background-color: #1e293b;
+    color: #ffffff;
+    padding-left: 24px; 
+}
+
+
+.sidebar ul li a.active {
+    background-color: #2563eb; 
+    color: #ffffff;
+}
+
+
+.contenido {
+    margin-left: 260px;
+    padding: 40px;
+    width: calc(100% - 260px);
+}
+
+section {
+    margin-bottom: 50px;
+    background: #ffffff;/*color del cuadro*/
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+h1 {
+    font-size: 28px;
+    color: #0f172a;/*color del titulo de los cuadros*/
+    margin-bottom: 25px;
+    font-weight: 700;
+    border-bottom: 2px solid #e2e8f0;/*linea debajo del titulo*/
+    padding-bottom: 12px;
+}
+
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    margin-top: 10px;
+}
+
+.card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;/*lineas del los titulos del dashboard*/
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #000000;/*color de titulos de dashboard*/
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.card p {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;/*color de los numeros*/
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: #ffffff;
+}
+
+th, td {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 15px;
+}
+
+th {
+    background-color: #000000;/*linea de nombre, apellido, correo, telefono, nacimiento*/
+    color: #ffffff;/*color de las letras*/
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+td {
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;/*color de las letras de los registros*/
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+
+tr:nth-child(even) td {
+    background-color: #f8fafc;
+}
+
+tr:hover td {
+    background-color: #868d8f;
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 20px;
+    }
+
+    .sidebar h2 {
+        margin-bottom: 20px;
+    }
+
+    .contenido {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px;
+    }
+}
