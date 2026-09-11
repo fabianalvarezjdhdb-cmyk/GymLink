@@ -1,59 +1,70 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+GymLink - Sistema de Gestión de Gimnasios
+Aplicación web desarrollada en Laravel orientada a la optimización de procesos administrativos, control de clientes y gestión integral para establecimientos de acondicionamiento físico.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Características Principales
+Módulo de Autenticación y Registro: Control de accesos de usuarios con encriptación segura de contraseñas (Hash).
 
-## About Laravel
+Gestión de Base de Datos: Integración con MySQL mediante ORM Eloquent para consultas y persistencia eficiente.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Control de Sesiones: Manejo estructurado de sesiones de usuario con soporte robusto de base de datos.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Interfaz Adaptativa: Vistas de acceso ágiles estructuradas con Blade templates.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Tecnologías Utilizadas
+Backend: PHP 8.2+ con framework Laravel 12.
 
-## Learning Laravel
+Base de Datos: MySQL (gestionado a través de XAMPP / phpMyAdmin).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Control de Versiones: Git y GitHub.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Requisitos del Sistema
+PHP versión 8.2 o superior.
 
-## Laravel Sponsors
+Composer instalado globalmente.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Servidor local compatible con MySQL (XAMPP, Laragon o similar).
 
-### Premium Partners
+Instalación y Configuración Local
+Sigue estos pasos para clonar y poner en marcha el proyecto en tu entorno local:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Clonar el repositorio:
 
-## Contributing
+Bash
+git clone https://github.com/fabianalvarezjdhdb-cmyk/GymLink.git
+cd GymLink
+Instalar las dependencias de PHP:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Bash
+composer install
+Configurar el entorno:
+Duplica el archivo de configuración de ejemplo y ajusta los parámetros de tu base de datos:
 
-## Code of Conduct
+Bash
+cp .env.example .env
+Genera la llave de la aplicación:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Bash
+php artisan key:generate
+Configurar la Base de Datos:
+Abre tu archivo .env y define los accesos hacia tu servidor MySQL local:
 
-## Security Vulnerabilities
+Fragmento de código
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=gymlink
+DB_USERNAME=root
+DB_PASSWORD=
+Ejecutar Migraciones:
+Crea y sincroniza las tablas requeridas (incluyendo control de sesiones y usuarios) en tu base de datos:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Bash
+php artisan migrate
+Iniciar el Servidor de Desarrollo:
 
-## License
+Bash
+php artisan serve
+Accede a [http://127.0.0.1:8000](http://127.0.0.1:8000) en tu navegador web.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Autor
+Desarrollado por Fabián Álvarez como parte del programa de formación en Análisis y Desarrollo de Software.
