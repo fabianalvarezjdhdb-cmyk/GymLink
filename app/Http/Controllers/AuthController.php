@@ -31,7 +31,6 @@ class AuthController extends Controller
         }
 
         // 4. Iniciar sesión manualmente o registrar en sesión el rol
-        // (Asumiendo que guardas el estado de sesión o usas Auth de Laravel)
         session(['cliente_id' => $cliente->id, 'rol' => $cliente->rol]);
 
         // 5. Redirigir al dashboard correspondiente según el rol
@@ -59,11 +58,14 @@ class AuthController extends Controller
             'apellido' => 'required|string|max:255',
             'documento' => 'required|string|unique:clientes,documento',
             'email' => 'required|email|unique:clientes,email',
+            'rol' => 'required|in:admin,coach,cliente', // Validar que el rol venga del formulario
             'password' => 'required|min:6',
         ], [
             'documento.unique' => 'Este número de documento ya está registrado.',
             'email.unique' => 'Este correo electrónico ya está registrado.',
             'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'rol.required' => 'Debe seleccionar un rol.',
+            'rol.in' => 'El rol seleccionado no es válido.',
         ]);
 
         \App\Models\Cliente::create([
@@ -72,8 +74,8 @@ class AuthController extends Controller
             'documento' => $request->documento,
             'email' => $request->email,
             'telefono' => $request->telefono,
+            'rol' => $request->rol, // Asignar el rol seleccionado dinámicamente
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
-            'rol' => 'cliente', // Por defecto se registran como clientes normales
         ]);
 
         return redirect('/login')->with('success', 'Registro exitoso. Ahora puedes iniciar sesión.');

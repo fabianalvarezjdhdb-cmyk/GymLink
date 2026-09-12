@@ -34,6 +34,16 @@
 
             <input type="text" name="telefono" placeholder="Teléfono" value="{{ old('telefono') }}">
 
+            <!-- Selector de Roles Integrado -->
+            <div style="margin-bottom: 15px; text-align: left;">
+                <label for="rol" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Seleccionar Rol:</label>
+                <select name="rol" id="rol" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                    <option value="cliente" {{ old('rol') == 'cliente' ? 'selected' : '' }}>Cliente</option>
+                    <option value="coach" {{ old('rol') == 'coach' ? 'selected' : '' }}>Coach</option>
+                    <option value="admin" {{ old('rol') == 'admin' ? 'selected' : '' }}>Administrador</option>
+                </select>
+            </div>
+
             <input type="password" name="password" placeholder="Contraseña" required>
 
             <button type="submit">Registrarse</button>
