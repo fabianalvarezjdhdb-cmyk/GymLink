@@ -19,7 +19,15 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/registro', [AuthController::class, 'showRegister']);
 Route::post('/registro', [AuthController::class, 'register']);
 
-// Panel de Administración (Dashboard)
-Route::match(['get', 'post'], '/dashboard', function () {
+// Dashboards según el rol
+Route::get('/dashboard', function () {
     return view('dashboard');
+});
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+});
+
+Route::get('/coach/dashboard', function () {
+    return view('coach.dashboard');
 });

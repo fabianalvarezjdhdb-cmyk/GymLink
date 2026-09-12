@@ -21,7 +21,6 @@ class AuthController extends Controller
         ]);
 
         // 2. Buscar al cliente en la base de datos por su correo
-        // (Nota: Asegúrate de que tu tabla de clientes tenga un campo 'password' si van a iniciar sesión)
         $cliente = \App\Models\Cliente::on('mysql')->where('email', $request->email)->first();
 
         // 3. Verificar si existe y si la contraseña coincide
@@ -31,9 +30,21 @@ class AuthController extends Controller
             ])->withInput();
         }
 
-        // 4. Si todo es correcto, redirigir al dashboard
-        return redirect('/dashboard');
+        // 4. Iniciar sesión manualmente o registrar en sesión el rol
+        // (Asumiendo que guardas el estado de sesión o usas Auth de Laravel)
+        session(['cliente_id' => $cliente->id, 'rol' => $cliente->rol]);
+
+        // 5. Redirigir al dashboard correspondiente según el rol
+        switch ($cliente->rol) {
+            case 'admin':
+                return redirect('/admin/dashboard');
+            case 'coach':
+                return redirect('/coach/dashboard');
+            default:
+                return redirect('/dashboard');
+        }
     }
+
     // Mostrar la vista de registro
     public function showRegister()
     {
@@ -62,6 +73,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'telefono' => $request->telefono,
             'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'rol' => 'cliente', // Por defecto se registran como clientes normales
         ]);
 
         return redirect('/login')->with('success', 'Registro exitoso. Ahora puedes iniciar sesión.');
