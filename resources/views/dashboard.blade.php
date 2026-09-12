@@ -6,6 +6,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GymLink Dashboard</title>
     <link rel="stylesheet" href="{{ asset('CSS/dashboard.css') }}">
+    <!-- Estilos adicionales para integrar la sección de chat sin romper tu diseño -->
+    <style>
+        .chat-layout {
+            display: flex;
+            background: #1e293b;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 450px;
+            border: 1px solid #334155;
+            margin-top: 20px;
+        }
+        .chat-sidebar {
+            width: 30%;
+            border-right: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            background: #0f172a;
+        }
+        .chat-sidebar h3 {
+            padding: 15px;
+            margin: 0;
+            border-bottom: 1px solid #334155;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .coach-contact-item {
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #1e293b;
+            transition: background 0.2s;
+        }
+        .coach-contact-item:hover, .coach-contact-item.active {
+            background: #1e293b;
+        }
+        .coach-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .coach-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+        .coach-info span {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #1e293b;
+        }
+        .chat-header {
+            padding: 12px 15px;
+            background: #0f172a;
+            border-bottom: 1px solid #334155;
+            color: #fff;
+            font-weight: bold;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .message {
+            max-width: 70%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .message.received {
+            background: #334155;
+            color: #f8fafc;
+            align-self: flex-start;
+        }
+        .message.sent {
+            background: #2563eb;
+            color: #fff;
+            align-self: flex-end;
+        }
+        .chat-input-area {
+            padding: 12px;
+            background: #0f172a;
+            border-top: 1px solid #334155;
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background: #1e293b;
+            color: #fff;
+            outline: none;
+        }
+        .chat-input-area button {
+            padding: 8px 16px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .chat-input-area button:hover {
+            background: #1d4ed8;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +145,8 @@
             <li><a href="#coaches">💪 Coaches</a></li>
             <li><a href="#rutinas">📋 Rutinas</a></li>
             <li><a href="#gamificacion">🏆 Logros</a></li>
-            <li><a href="mi perfil">🎛️Mi perfil </a></li>
+            <li><a href="#chat">💬 Chat con Coach</a></li>
+            <li><a href="mi perfil">🎛️ Mi perfil </a></li>
             <li><a href="ajustes">⚙️ Ajustes</a></li>
             <li><a href="{{ url('/index') }}">🚪 Salir</a></li>
         </ul>
@@ -243,6 +369,54 @@
                 </tr>
             </table>
 
+        </section>
+
+        <!-- Nueva Sección de Chat con el Coach para el Cliente -->
+        <section id="chat">
+            <h1>Chat con tu Coach</h1>
+            
+            <div class="chat-layout">
+                <!-- Lista de Coaches / Conversaciones -->
+                <div class="chat-sidebar">
+                    <h3>Mis Entrenadores</h3>
+                    <div class="coach-contact-item active">
+                        <div class="coach-avatar">CR</div>
+                        <div class="coach-info">
+                            <p>Carlos Ruiz</p>
+                            <span>Especialista en Fuerza</span>
+                        </div>
+                    </div>
+                    <div class="coach-contact-item">
+                        <div class="coach-avatar">AT</div>
+                        <div class="coach-info">
+                            <p>Ana Torres</p>
+                            <span>Cardio y Resistencia</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ventana del Chat -->
+                <div class="chat-main">
+                    <div class="chat-header">
+                        Conversación con Carlos Ruiz
+                    </div>
+                    <div class="chat-messages">
+                        <div class="message received">
+                            ¡Hola! Bienvenido a tu plan de entrenamiento. ¿Tienes alguna duda sobre tu rutina de hoy?
+                        </div>
+                        <div class="message sent">
+                            Hola profe, sí, quería saber cuántas repeticiones debo hacer en el press de banca.
+                        </div>
+                        <div class="message received">
+                            Te recomiendo hacer 4 series de 10 a 12 repeticiones con un peso moderado. ¡Tú puedes!
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" placeholder="Escribe un mensaje a tu coach...">
+                        <button type="button">Enviar</button>
+                    </div>
+                </div>
+            </div>
         </section>
 
     </div>
