@@ -3,10 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
-// Ruta principal
+// Ruta principal y alias /index
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/index', function () {
+    return view('index');
+})->name('index');
+
+// Ruta para cerrar sesión (Logout)
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rutas de Autenticación (Login)
 Route::get('/login', function () {
@@ -24,8 +31,27 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 });
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
+// Panel de Administrador (Apunta a la carpeta 'admin' y sus vistas)
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::get('/clientes', function () {
+        return view('admin.clientes');
+    })->name('admin.clientes');
+
+    Route::get('/coaches', function () {
+        return view('admin.coaches');
+    })->name('admin.coaches');
+
+    Route::get('/membresias', function () {
+        return view('admin.membresias');
+    })->name('admin.membresias');
+
+    Route::get('/reportes', function () {
+        return view('admin.reportes');
+    })->name('admin.reportes');
 });
 
 Route::get('/coach/dashboard', function () {

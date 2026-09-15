@@ -15,16 +15,26 @@
                 GymLink 
                 <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded uppercase font-semibold">Admin</span>
             </div>
-            <nav class="mt-4 px-4 space-y-1">
-                <a href="#" class="flex items-center px-4 py-2.5 bg-blue-600 text-white rounded-lg font-medium transition">Dashboard</a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition">Gestión de Clientes</a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition">Control de Coaches</a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition">Membresías</a>
-                <a href="#" class="flex items-center px-4 py-2.5 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition">Reportes</a>
-            </nav>
+             <nav class="mt-4 px-4 space-y-1">
+    <a href="{{ url('/admin/dashboard') }}" class="flex items-center px-4 py-2.5 rounded-lg font-medium transition {{ request()->is('admin/dashboard') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+        Dashboard
+    </a>
+    <a href="{{ url('/admin/clientes') }}" class="flex items-center px-4 py-2.5 rounded-lg font-medium transition {{ request()->is('admin/clientes*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+        Gestión de Clientes
+    </a>
+    <a href="{{ url('/admin/coaches') }}" class="flex items-center px-4 py-2.5 rounded-lg font-medium transition {{ request()->is('admin/coaches*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+        Control de Coaches
+    </a>
+    <a href="{{ url('/admin/membresias') }}" class="flex items-center px-4 py-2.5 rounded-lg font-medium transition {{ request()->is('admin/membresias*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+        Membresías
+    </a>
+    <a href="{{ url('/admin/reportes') }}" class="flex items-center px-4 py-2.5 rounded-lg font-medium transition {{ request()->is('admin/reportes*') ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' }}">
+        Reportes
+    </a>
+</nav>
         </div>
         <div class="p-4 border-t border-gray-700">
-            <a href="/login" class="flex items-center justify-center w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition font-medium">Cerrar Sesión</a>
+            <a href="{{ route('logout') }}" class="flex items-center justify-center w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition font-medium">Cerrar Sesión</a>
         </div>
     </aside>
 
