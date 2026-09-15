@@ -80,4 +80,17 @@ class AuthController extends Controller
 
         return redirect('/login')->with('success', 'Registro exitoso. Ahora puedes iniciar sesión.');
     }
+
+    // Método para Cerrar Sesión
+    public function logout(Request $request)
+    {
+        // Limpiar las variables de sesión personalizadas y Auth si se usara
+        \Illuminate\Support\Facades\Auth::logout();
+        
+        $request->session()->forget(['cliente_id', 'rol']);
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
 }

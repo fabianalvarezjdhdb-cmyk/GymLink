@@ -54,6 +54,17 @@ Route::prefix('admin')->group(function () {
     })->name('admin.reportes');
 });
 
-Route::get('/coach/dashboard', function () {
-    return view('coach.dashboard');
+// Panel de Coach y sus Módulos
+Route::prefix('coach')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('coach.dashboard');
+    })->name('coach.dashboard');
+
+    Route::get('/clientes', function () {
+        return view('coach.clientes');
+    })->name('coach.clientes');
+
+    Route::get('/rutinas', function () {
+        return view('coach.rutinas');
+    })->name('coach.rutinas');
 });
