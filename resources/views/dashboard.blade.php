@@ -219,7 +219,7 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="main-content">
 
-        <!-- HEADER BAR -->
+        <!-- HEADER BAR DINÁMICO CLIENTE -->
         <header class="header-bar">
             <div>
                 <h2 class="h5 fw-bold mb-0 text-white">Panel de Entrenamiento</h2>
@@ -227,11 +227,20 @@
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="text-end d-none d-sm-block">
-                    <span class="d-block fw-bold text-white small">Daniel Zubieta</span>
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">Atleta GymLink</span>
+                    <!-- Nombre y Apellido dinámicos desde la sesión con respaldo en Auth -->
+                    <span class="d-block fw-bold text-white small">
+                        {{ session('usuario_nombre', Auth::user()->nombre ?? 'Atleta') }} 
+                        {{ session('usuario_apellido', Auth::user()->apellido ?? '') }}
+                    </span>
+                    <!-- Rol del usuario -->
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill text-capitalize">
+                        {{ session('rol', Auth::user()->rol ?? 'Atleta GymLink') }}
+                    </span>
                 </div>
-                <div class="stat-icon bg-primary text-white fw-bold">
-                    DZ
+
+                <!-- Avatar con las Iniciales Dinámicas -->
+                <div class="stat-icon bg-primary text-white fw-bold rounded-circle" style="width: 42px; height: 42px; font-size: 0.95rem;">
+                    {{ strtoupper(substr(session('usuario_nombre', Auth::user()->nombre ?? 'A'), 0, 1)) }}{{ strtoupper(substr(session('usuario_apellido', Auth::user()->apellido ?? 'T'), 0, 1)) }}
                 </div>
             </div>
         </header>
@@ -377,7 +386,7 @@
 
                     <div class="chat-messages my-3">
                         <div class="msg-bubble msg-received">
-                            ¡Hola Daniel! Recuérdame mantener la espalda recta en la última serie de peso muerto.
+                            ¡Hola! Recuérdame mantener la espalda recta en la última serie de peso muerto.
                         </div>
                         <div class="msg-bubble msg-sent">
                             ¡Entendido Profe! Ya completé la sentadilla con 80kg sintiéndome muy cómodo.

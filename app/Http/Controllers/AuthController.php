@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Cliente;
+use App\Models\Usuario;
 
 class AuthController extends Controller
 {
@@ -28,24 +28,26 @@ class AuthController extends Controller
             'password.required' => 'La contraseña es obligatoria.',
         ]);
 
-        // 2. Buscar al cliente en la base de datos
-        $cliente = Cliente::where('email', $request->email)->first();
+        // 2. Buscar al usuario en la base de datos
+        $usuario = Usuario::where('email', $request->email)->first();
 
         // 3. Verificar si existe y la contraseña coincide
-        if (!$cliente || !Hash::check($request->password, $cliente->password)) {
+        if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             return back()->withErrors([
                 'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
             ])->withInput();
         }
 
-        // 4. Guardar datos en la sesión
+        // 4. Guardar datos en la sesión (Incluyendo Nombre y Apellido)
         session([
-            'cliente_id' => $cliente->id,
-            'rol' => $cliente->rol
+            'usuario_id' => $usuario->id,
+            'usuario_nombre' => $usuario->nombre,
+            'usuario_apellido' => $usuario->apellido,
+            'rol' => $usuario->rol
         ]);
 
         // 5. Redirigir al dashboard correspondiente según el rol
-        return $this->redirectUserByRole($cliente->rol);
+        return $this->redirectUserByRole($usuario->rol);
     }
 
     // Mostrar la vista de registro
@@ -61,10 +63,10 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'documento' => 'required|string|unique:clientes,documento',
-            'email' => 'required|email|unique:clientes,email',
+            'documento' => 'required|string|unique:usuarios,documento',
+            'email' => 'required|email|unique:usuarios,email',
             'telefono' => 'nullable|string',
-            'rol' => 'required|in:coach,cliente', // Solo roles públicos
+            'rol' => 'required|in:coach,cliente',
             'password' => 'required|min:6',
         ], [
             'documento.unique' => 'Este número de documento ya está registrado.',
@@ -75,7 +77,7 @@ class AuthController extends Controller
         ]);
 
         // 2. Crear el nuevo registro en la base de datos
-        $cliente = Cliente::create([
+        $usuario = Usuario::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'documento' => $request->documento,
@@ -85,14 +87,16 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // 3. Iniciar sesión automáticamente tras el registro
+        // 3. Iniciar sesión automáticamente tras el registro (Guardando nombres)
         session([
-            'cliente_id' => $cliente->id,
-            'rol' => $cliente->rol
+            'usuario_id' => $usuario->id,
+            'usuario_nombre' => $usuario->nombre,
+            'usuario_apellido' => $usuario->apellido,
+            'rol' => $usuario->rol
         ]);
 
         // 4. Redirigir directamente al dashboard según su rol
-        return $this->redirectUserByRole($cliente->rol);
+        return $this->redirectUserByRole($usuario->rol);
     }
 
     // Función auxiliar para redirigir según el rol
@@ -113,7 +117,7 @@ class AuthController extends Controller
     {
         Auth::logout();
         
-        $request->session()->forget(['cliente_id', 'rol']);
+        $request->session()->forget(['usuario_id', 'usuario_nombre', 'usuario_apellido', 'rol']);
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
