@@ -44,6 +44,7 @@
             position: fixed;
             height: 100vh;
             z-index: 100;
+            overflow-y: auto;
         }
 
         .sidebar .brand-logo {
@@ -60,20 +61,31 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 16px;
+            padding: 11px 16px;
             color: #94a3b8;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.92rem;
+            font-size: 0.90rem;
             transition: all 0.3s ease;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .nav-link-custom:hover, .nav-link-custom.active {
             background-color: var(--gl-primary);
             color: #ffffff;
             box-shadow: 0 4px 14px rgba(13, 110, 253, 0.35);
+        }
+
+        .sidebar-section-title {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            font-weight: 700;
+            margin-top: 18px;
+            margin-bottom: 8px;
+            padding-left: 12px;
         }
 
         /* Main Content */
@@ -188,28 +200,52 @@
     <!-- SIDEBAR DE NAVEGACIÓN -->
     <aside class="sidebar">
         <div>
-            <a href="{{ url('/') }}" class="brand-logo mb-4">
+            <a href="{{ url('/') }}" class="brand-logo mb-3">
                 <i class="fa-solid fa-dumbbell text-primary"></i> GymLink
             </a>
-            <hr class="border-secondary opacity-25 mb-4">
+            <hr class="border-secondary opacity-25 mb-3">
 
             <nav>
-                 <a href="{{ url('/dashboard') }}" class="nav-link-custom {{ request()->is('dashboard') ? 'active' : '' }}">
+                <div class="sidebar-section-title">Entrenamiento</div>
+                
+                <a href="{{ url('/dashboard') }}" class="nav-link-custom {{ request()->is('dashboard') ? 'active' : '' }}">
                     <i class="fa-solid fa-chart-line"></i> Dashboard
                 </a>
                 <a href="{{ url('/rutinas') }}" class="nav-link-custom {{ request()->is('rutinas*') ? 'active' : '' }}">
                     <i class="fa-solid fa-list-check"></i> Mi Rutina Diaria
                 </a>
-                <a href="#chat-section" class="nav-link-custom">
+                <!-- ENLACE CORREGIDO DIRIGIENDO A /chat -->
+                <a href="{{ url('/chat') }}" class="nav-link-custom {{ request()->is('chat*') ? 'active' : '' }}">
                     <i class="fa-solid fa-comments"></i> Chat con Coach
                 </a>
-                <a href="#" class="nav-link-custom">
+                <a href="{{ url('/progreso') }}" class="nav-link-custom {{ request()->is('progreso*') ? 'active' : '' }}">
                     <i class="fa-solid fa-fire"></i> Mi Progreso
+                </a>
+                <a href="{{ url('/logros') }}" class="nav-link-custom {{ request()->is('logros*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-trophy"></i> Logros
+                </a>
+
+                <div class="sidebar-section-title">Explorar & Social</div>
+
+                <a href="{{ url('/gimnasios') }}" class="nav-link-custom {{ request()->is('gimnasios*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-location-dot"></i> Gimnasios
+                </a>
+                <a href="{{ url('/comunidad') }}" class="nav-link-custom {{ request()->is('comunidad*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-users text-primary"></i> Comunidad
+                </a>
+
+                <div class="sidebar-section-title">Cuenta</div>
+
+                <a href="{{ url('/perfil') }}" class="nav-link-custom {{ request()->is('perfil*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-user"></i> Perfil
+                </a>
+                <a href="{{ url('/configuracion') }}" class="nav-link-custom {{ request()->is('configuracion*') ? 'active' : '' }}">
+                    <i class="fa-solid fa-gear"></i> Configuración
                 </a>
             </nav>
         </div>
 
-        <div>
+        <div class="pt-3 border-top border-secondary border-opacity-25 mt-3">
             <a href="{{ route('logout') }}" class="btn btn-outline-danger w-100 rounded-3 py-2 fw-bold d-flex align-items-center justify-content-center gap-2">
                 <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
             </a>
@@ -223,7 +259,7 @@
         <header class="header-bar">
             <div>
                 <h2 class="h5 fw-bold mb-0 text-white">Panel de Entrenamiento</h2>
-                <small class="text-muted">¡A darle con toda a la sesión de hoy!</small>
+                <small class="text-white">¡A darle con toda a la sesión de hoy!</small>
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="text-end d-none d-sm-block">
@@ -325,7 +361,7 @@
             </div>
         </div>
 
-        <!-- SECCIÓN DE RUTINA DEL DÍA Y CHAT INTEGRADO -->
+        <!-- SECCIÓN DE RUTINA DEL DÍA Y CHAT INTEGRADO CON BOTÓN A VISTA COMPLETA -->
         <div class="row g-4">
             <!-- Checklist de Rutina -->
             <div class="col-lg-6">
@@ -372,16 +408,22 @@
             </div>
 
             <!-- Chat Directo con el Coach -->
-            <div class="col-lg-6" id="chat-section">
+            <div class="col-lg-6">
                 <div class="glass-card chat-container">
-                    <div class="d-flex align-items-center gap-2 pb-3 border-bottom border-secondary border-opacity-25">
-                        <div class="stat-icon bg-info text-white fw-bold rounded-circle" style="width: 40px; height: 40px; font-size: 0.9rem;">
-                            CO
+                    <div class="d-flex align-items-center justify-content-between pb-3 border-bottom border-secondary border-opacity-25">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="stat-icon bg-info text-white fw-bold rounded-circle" style="width: 40px; height: 40px; font-size: 0.9rem;">
+                                CO
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-white mb-0">Entrenador Asignado</h6>
+                                <small class="text-success"><i class="fa-solid fa-circle me-1" style="font-size: 0.5rem;"></i>En línea</small>
+                            </div>
                         </div>
-                        <div>
-                            <h6 class="fw-bold text-white mb-0">Entrenador Asignado</h6>
-                            <small class="text-success"><i class="fa-solid fa-circle me-1" style="font-size: 0.5rem;"></i>En línea</small>
-                        </div>
+                        <!-- BOTÓN QUE DIRIGE A LA VISTA COMPLETA DEL CHAT -->
+                        <a href="{{ url('/chat') }}" class="btn btn-sm btn-outline-primary fw-bold rounded-3">
+                            <i class="fa-solid fa-up-right-from-square me-1"></i> Abrir Chat Completo
+                        </a>
                     </div>
 
                     <div class="chat-messages my-3">
@@ -398,7 +440,10 @@
 
                     <div class="input-group">
                         <input type="text" class="form-control bg-dark text-white border-secondary border-opacity-25" placeholder="Escribe a tu entrenador...">
-                        <button class="btn btn-primary fw-bold" type="button"><i class="fa-solid fa-paper-plane me-1"></i> Enviar</button>
+                        <!-- EL BOTÓN ENVIAR TAMBIÉN PUEDE ABRIR LA VISTA COMPLETA -->
+                        <a href="{{ url('/chat') }}" class="btn btn-primary fw-bold d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-paper-plane me-1"></i> Enviar
+                        </a>
                     </div>
                 </div>
             </div>

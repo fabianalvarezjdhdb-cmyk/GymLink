@@ -35,8 +35,43 @@ Route::get('/dashboard', function () {
 
 // Rutina Diaria del Usuario
 Route::get('/rutinas', function () {
-    return view('RutinasU'); // Nombre exacto del archivo RutinasU.blade.php
+    return view('RutinasU'); // Nombre del archivo RutinasU.blade.php
 })->name('cliente.rutinas');
+
+// Chat del Usuario con su Coach
+Route::get('/chat', function () {
+    return view('chatC'); // Nombre del archivo ChatU.blade.php
+})->name('cliente.chat');
+
+// Mi Progreso
+Route::get('/progreso', function () {
+    return view('progreso');
+})->name('cliente.progreso');
+
+// Logros
+Route::get('/logros', function () {
+    return view('logrosU');
+})->name('cliente.logros');
+
+// Gimnasios
+Route::get('/gimnasios', function () {
+    return view('gimnasiosU');
+})->name('cliente.gimnasios');
+
+// Comunidad
+Route::get('/comunidad', function () {
+    return view('comunidad');
+})->name('cliente.comunidad');
+
+// Perfil
+Route::get('/perfil', function () {
+    return view('perfil');
+})->name('cliente.perfil');
+
+// Configuración
+Route::get('/configuracion', function () {
+    return view('configuracionU');
+})->name('cliente.configuracion');
 
 // ==========================================
 // MÓDULO DE ADMINISTRADOR
@@ -79,4 +114,9 @@ Route::prefix('coach')->group(function () {
     Route::get('/rutinas', function () {
         return view('coach.Grutinas'); 
     })->name('coach.rutinas');
+
+    // Chat del Coach con Clientes (chatC.blade.php)
+    Route::get('/chat', function () {
+        return view('coach.chatC'); 
+    })->name('coach.chat');
 });
