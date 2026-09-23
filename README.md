@@ -67,4 +67,6 @@ php artisan serve
 Accede a [http://127.0.0.1:8000](http://127.0.0.1:8000) en tu navegador web.
 
 Autor
+Desarrollado por Daniel Zubieta como parte del programa de formación en Análisis y Desarrollo de Software.
 Desarrollado por Fabián Álvarez como parte del programa de formación en Análisis y Desarrollo de Software.
+
