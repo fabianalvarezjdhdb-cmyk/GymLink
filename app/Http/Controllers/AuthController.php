@@ -4,10 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Cliente; // Asegúrate de tener o crear el Modelo Cliente
+use Illuminate\Support\Facades\Auth;
+use App\Models\Cliente;
 
 class AuthController extends Controller
 {
+    // Mostrar la vista de login
+    public function showLogin()
+    {
+        return view('auth.login');
+    }
+
+    // Procesar Inicio de Sesión
     public function login(Request $request)
     {
         // 1. Validar los datos de entrada
@@ -20,28 +28,24 @@ class AuthController extends Controller
             'password.required' => 'La contraseña es obligatoria.',
         ]);
 
-        // 2. Buscar al cliente en la base de datos por su correo
-        $cliente = \App\Models\Cliente::on('mysql')->where('email', $request->email)->first();
+        // 2. Buscar al cliente en la base de datos
+        $cliente = Cliente::where('email', $request->email)->first();
 
-        // 3. Verificar si existe y si la contraseña coincide
+        // 3. Verificar si existe y la contraseña coincide
         if (!$cliente || !Hash::check($request->password, $cliente->password)) {
             return back()->withErrors([
                 'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
             ])->withInput();
         }
 
-        // 4. Iniciar sesión manualmente o registrar en sesión el rol
-        session(['cliente_id' => $cliente->id, 'rol' => $cliente->rol]);
+        // 4. Guardar datos en la sesión
+        session([
+            'cliente_id' => $cliente->id,
+            'rol' => $cliente->rol
+        ]);
 
         // 5. Redirigir al dashboard correspondiente según el rol
-        switch ($cliente->rol) {
-            case 'admin':
-                return redirect('/admin/dashboard');
-            case 'coach':
-                return redirect('/coach/dashboard');
-            default:
-                return redirect('/dashboard');
-        }
+        return $this->redirectUserByRole($cliente->rol);
     }
 
     // Mostrar la vista de registro
@@ -53,12 +57,14 @@ class AuthController extends Controller
     // Procesar y guardar el registro
     public function register(Request $request)
     {
+        // 1. Validar datos del formulario
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'documento' => 'required|string|unique:clientes,documento',
             'email' => 'required|email|unique:clientes,email',
-            'rol' => 'required|in:admin,coach,cliente', // Validar que el rol venga del formulario
+            'telefono' => 'nullable|string',
+            'rol' => 'required|in:coach,cliente', // Solo roles públicos
             'password' => 'required|min:6',
         ], [
             'documento.unique' => 'Este número de documento ya está registrado.',
@@ -68,24 +74,44 @@ class AuthController extends Controller
             'rol.in' => 'El rol seleccionado no es válido.',
         ]);
 
-        \App\Models\Cliente::create([
+        // 2. Crear el nuevo registro en la base de datos
+        $cliente = Cliente::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'documento' => $request->documento,
             'email' => $request->email,
             'telefono' => $request->telefono,
-            'rol' => $request->rol, // Asignar el rol seleccionado dinámicamente
-            'password' => \Illuminate\Support\Facades\Hash::make($request->password),
+            'rol' => $request->rol,
+            'password' => Hash::make($request->password),
         ]);
 
-        return redirect('/login')->with('success', 'Registro exitoso. Ahora puedes iniciar sesión.');
+        // 3. Iniciar sesión automáticamente tras el registro
+        session([
+            'cliente_id' => $cliente->id,
+            'rol' => $cliente->rol
+        ]);
+
+        // 4. Redirigir directamente al dashboard según su rol
+        return $this->redirectUserByRole($cliente->rol);
+    }
+
+    // Función auxiliar para redirigir según el rol
+    private function redirectUserByRole($rol)
+    {
+        switch ($rol) {
+            case 'admin':
+                return redirect()->route('admin.dashboard');
+            case 'coach':
+                return redirect()->route('coach.dashboard');
+            default:
+                return redirect()->to('/dashboard');
+        }
     }
 
     // Método para Cerrar Sesión
     public function logout(Request $request)
     {
-        // Limpiar las variables de sesión personalizadas y Auth si se usara
-        \Illuminate\Support\Facades\Auth::logout();
+        Auth::logout();
         
         $request->session()->forget(['cliente_id', 'rol']);
         $request->session()->invalidate();

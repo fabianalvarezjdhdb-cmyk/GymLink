@@ -26,12 +26,21 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/registro', [AuthController::class, 'showRegister']);
 Route::post('/registro', [AuthController::class, 'register']);
 
-// Dashboards según el rol
+// ==========================================
+// MÓDULO DE CLIENTE / USUARIO NORMAL
+// ==========================================
 Route::get('/dashboard', function () {
     return view('dashboard');
-});
+})->name('dashboard');
 
-// Panel de Administrador (Apunta a la carpeta 'admin' y sus vistas)
+// Rutina Diaria del Usuario
+Route::get('/rutinas', function () {
+    return view('RutinasU'); // Nombre exacto del archivo RutinasU.blade.php
+})->name('cliente.rutinas');
+
+// ==========================================
+// MÓDULO DE ADMINISTRADOR
+// ==========================================
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
@@ -54,7 +63,9 @@ Route::prefix('admin')->group(function () {
     })->name('admin.reportes');
 });
 
-// Panel de Coach y sus Módulos
+// ==========================================
+// MÓDULO DE COACH / ENTRENADOR
+// ==========================================
 Route::prefix('coach')->group(function () {
     Route::get('/dashboard', function () {
         return view('coach.dashboard');
@@ -64,7 +75,8 @@ Route::prefix('coach')->group(function () {
         return view('coach.clientes');
     })->name('coach.clientes');
 
+    // Gestión de Rutinas del Coach (Grutinas.blade.php)
     Route::get('/rutinas', function () {
-        return view('coach.rutinas');
+        return view('coach.Grutinas'); 
     })->name('coach.rutinas');
 });

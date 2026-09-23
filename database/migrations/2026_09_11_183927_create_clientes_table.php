@@ -10,18 +10,20 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-Schema::create('clientes', function (Blueprint $table) {
-    $table->id();
-    $table->string('nombre');
-    $table->string('apellido');
-    $table->string('documento')->unique();
-    $table->string('email')->unique();
-    $table->string('telefono')->nullable();
-    $table->string('password');
-    $table->timestamps();
-});
-}
+    {
+        Schema::create('clientes', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre');
+            $table->string('apellido');
+            $table->string('documento')->unique();
+            $table->string('email')->unique();
+            $table->string('telefono')->nullable();
+            $table->string('rol')->default('cliente'); // <-- COLUMNA AGREGADA
+            $table->string('password');
+            $table->timestamps();
+        });
+    }
+
     /**
      * Reverse the migrations.
      */
