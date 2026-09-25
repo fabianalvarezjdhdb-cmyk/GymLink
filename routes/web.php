@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProgresoController;
 
 // Ruta principal y alias /index
 Route::get('/', function () {
@@ -43,10 +44,12 @@ Route::get('/chat', function () {
     return view('chatC'); // Nombre del archivo ChatU.blade.php
 })->name('cliente.chat');
 
-// Mi Progreso
+// Mi Progreso y Ruta para Guardar Métricas del Modal
 Route::get('/progreso', function () {
     return view('progreso');
 })->name('cliente.progreso');
+
+Route::post('/progreso/guardar', [ProgresoController::class, 'store'])->name('cliente.progreso.guardar');
 
 // Logros
 Route::get('/logros', function () {

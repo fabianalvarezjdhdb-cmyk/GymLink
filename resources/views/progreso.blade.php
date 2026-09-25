@@ -222,6 +222,14 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="main-content">
 
+        <!-- ALERTA DE ÉXITO -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show bg-success text-white border-0 mb-4" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i>{{ session('success') }}
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <!-- HEADER BAR DINÁMICO CLIENTE -->
         <header class="header-bar">
             <div>
@@ -229,7 +237,7 @@
                 <small class="text-white">Monitorea tus marcas históricas, evolución corporal y rendimiento general</small>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-primary fw-bold rounded-3 d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#modalRegistroMetricas">
+                <button type="button" class="btn btn-primary fw-bold rounded-3 d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#modalRegistroMetricas">
                     <i class="fa-solid fa-plus"></i> Registrar Peso / Medidas
                 </button>
 
@@ -306,7 +314,6 @@
 
         <!-- GRÁFICOS PRINCIPALES DE PROGRESO -->
         <div class="row g-4 mb-4">
-            <!-- Gráfico de Evolución de Peso y Composición Corporal -->
             <div class="col-lg-7">
                 <div class="glass-card h-100">
                     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -319,7 +326,6 @@
                 </div>
             </div>
 
-            <!-- Gráfico de Cargas Máximas Estimadas (1RM) -->
             <div class="col-lg-5">
                 <div class="glass-card h-100">
                     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -335,7 +341,6 @@
 
         <!-- MARCAS PERSONALES (PRs) Y TABLA DE REVISION -->
         <div class="row g-4 mb-4">
-            <!-- Récords en Ejercicios Principales -->
             <div class="col-lg-6">
                 <div class="glass-card h-100">
                     <h5 class="fw-bold text-white mb-3"><i class="fa-solid fa-award text-warning me-2"></i>Marcas Personales (PRs)</h5>
@@ -383,7 +388,6 @@
                 </div>
             </div>
 
-            <!-- Historial de Registros Físicos -->
             <div class="col-lg-6">
                 <div class="glass-card h-100">
                     <h5 class="fw-bold text-white mb-3"><i class="fa-solid fa-clipboard-list text-primary me-2"></i>Historial de Pesajes</h5>
@@ -430,40 +434,56 @@
 
     </main>
 
-    <!-- MODAL DE REGISTRO RÁPIDO DE MÉTRICAS -->
+    <!-- MODAL DE REGISTRO RÁPIDO DE MÉTRICAS CON EMOJIS / ICONOS -->
     <div class="modal fade" id="modalRegistroMetricas" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-dark text-white border border-secondary border-opacity-25" style="border-radius: 20px;">
-                <div class="modal-header border-bottom border-secondary border-opacity-25">
-                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-plus-circle text-primary me-2"></i>Registrar Métrica Física</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body py-4">
-                    <form>
+                
+                <!-- Formulario funcional conectado a la ruta POST -->
+                <form action="{{ url('/progreso/guardar') }}" method="POST">
+                    @csrf
+                    <div class="modal-header border-bottom border-secondary border-opacity-25">
+                        <h5 class="modal-title fw-bold">
+                            📸 Nuevo Registro de Progreso
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    
+                    <div class="modal-body py-4">
                         <div class="mb-3">
                             <label class="form-label text-muted small fw-semibold">Peso Corporal (kg)</label>
-                            <input type="number" step="0.1" class="form-control bg-dark text-white border-secondary border-opacity-25" placeholder="Ej. 74.5" required>
+                            <div class="input-group">
+                                <span class="input-group-text bg-secondary bg-opacity-25 text-white border-secondary border-opacity-25">🛍️</span>
+                                <input type="number" step="0.1" name="peso" class="form-control bg-dark text-white border-secondary border-opacity-25" placeholder="Ej. 74.5" required>
+                            </div>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label text-muted small fw-semibold">% Grasa Estimado (Opcional)</label>
-                            <input type="number" step="0.1" class="form-control bg-dark text-white border-secondary border-opacity-25" placeholder="Ej. 14.8">
+                            <label class="form-label text-muted small fw-semibold">% Grasa Corporal (Opcional)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-secondary bg-opacity-25 text-white border-secondary border-opacity-25">📊</span>
+                                <input type="number" step="0.1" name="grasa" class="form-control bg-dark text-white border-secondary border-opacity-25" placeholder="Ej. 14.8">
+                            </div>
                         </div>
+
                         <div class="mb-3">
-                            <label class="form-label text-muted small fw-semibold">Cintura (cm) (Opcional)</label>
-                            <input type="number" step="0.1" class="form-control bg-dark text-white border-secondary border-opacity-25" placeholder="Ej. 81">
+                            <label class="form-label text-muted small fw-semibold">Notas de la medición</label>
+                            <textarea name="notas" class="form-control bg-dark text-white border-secondary border-opacity-25" rows="2" placeholder="Ej. En ayunas, sintiendo gran evolución..."></textarea>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer border-top border-secondary border-opacity-25">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary fw-bold px-4" data-bs-dismiss="modal">Guardar Registro</button>
-                </div>
+                    </div>
+
+                    <div class="modal-footer border-top border-secondary border-opacity-25">
+                        <button type="button" class="btn btn-outline-secondary rounded-3 px-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary fw-bold rounded-3 px-4">Guardar Registro</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
 
     <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- SCRIPTS DE GRÁFICOS CHART.JS -->
     <script>
