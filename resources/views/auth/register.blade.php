@@ -140,6 +140,7 @@
         .registro-box input[type="text"],
         .registro-box input[type="email"],
         .registro-box input[type="password"],
+        .registro-box input[type="file"],
         .registro-box select {
             width: 100%;
             padding: 13px 16px 13px 46px;
@@ -153,6 +154,11 @@
             transition: all 0.3s ease;
             box-sizing: border-box;
             appearance: none;
+        }
+
+        .registro-box input[type="file"] {
+            padding-top: 11px;
+            padding-bottom: 11px;
         }
 
         .registro-box input:focus,
@@ -293,8 +299,9 @@
                 <h2>Crear Cuenta</h2>
                 <p class="subtitle">Completa tus datos para registrarte en GymLink</p>
 
-                <form action="{{ url('/registro') }}" method="POST">
-                    @csrf <!-- Token de seguridad agregado para evitar el error 419 -->
+                <!-- IMPORTANTE: Agregado enctype para permitir subida de archivos (certificado) -->
+                <form action="{{ url('/registro') }}" method="POST" enctype="multipart/form-data">
+                    @csrf 
                     
                     @if ($errors->any())
                     <div class="error-alert">
@@ -306,7 +313,6 @@
                     </div>
                     @endif
 
-                    <!-- Filas en 2 Columnas para mejor organización -->
                     <div class="row g-2">
                         <div class="col-md-6">
                             <div class="input-group-custom">
@@ -338,13 +344,20 @@
                         <i class="fa-solid fa-phone"></i>
                     </div>
 
-                    <!-- Selector de Rol con Icono -->
+                    <!-- Selector de Rol con evento onchange -->
                     <div class="input-group-custom">
-                        <select name="rol" id="rol" required>
+                        <select name="rol" id="rolSelect" onchange="verificarRolCoach()" required>
                             <option value="cliente" {{ old('rol') == 'cliente' ? 'selected' : '' }}>Cliente</option>
                             <option value="coach" {{ old('rol') == 'coach' ? 'selected' : '' }}>Coach</option>
                         </select>
                         <i class="fa-solid fa-user-gear"></i>
+                    </div>
+
+                    <!-- CAMPO DINÁMICO DE CERTIFICADO (Oculto por defecto) -->
+                    <div class="input-group-custom d-none" id="campoCertificado">
+                        <input type="file" name="certificado" accept=".pdf,.jpg,.jpeg,.png">
+                        <i class="fa-solid fa-certificate"></i>
+                        <small class="text-muted d-block mt-1 ms-1" style="font-size: 0.8rem;">Sube tu certificado o diploma (PDF o Imagen)</small>
                     </div>
 
                     <div class="input-group-custom">
@@ -374,5 +387,23 @@
 
     </div>
 
+    <!-- Script JavaScript para mostrar/ocultar el certificado de manera dinámica -->
+    <script>
+        function verificarRolCoach() {
+            const selectRol = document.getElementById('rolSelect');
+            const campoCertificado = document.getElementById('campoCertificado');
+
+            if (selectRol.value === 'coach') {
+                campoCertificado.classList.remove('d-none');
+            } else {
+                campoCertificado.classList.add('d-none');
+            }
+        }
+
+        // Ejecutar al cargar la página por si recarga con errores de validación y estaba seleccionado "coach"
+        document.addEventListener("DOMContentLoaded", function() {
+            verificarRolCoach();
+        });
+    </script>
 </body>
 </html>
