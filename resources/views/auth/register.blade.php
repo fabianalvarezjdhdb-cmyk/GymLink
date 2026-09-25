@@ -294,7 +294,7 @@
                 <p class="subtitle">Completa tus datos para registrarte en GymLink</p>
 
                 <form action="{{ url('/registro') }}" method="POST">
-                    @csrf
+                    @csrf <!-- Token de seguridad agregado para evitar el error 419 -->
                     
                     @if ($errors->any())
                     <div class="error-alert">

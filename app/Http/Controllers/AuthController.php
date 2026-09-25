@@ -63,8 +63,8 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
-            'documento' => 'required|string|unique:usuarios,documento',
-            'email' => 'required|email|unique:usuarios,email',
+            'documento' => 'required|string|unique:App\Models\Usuario,documento',
+            'email' => 'required|email|unique:App\Models\Usuario,email',
             'telefono' => 'nullable|string',
             'rol' => 'required|in:coach,cliente',
             'password' => 'required|min:6',
@@ -77,7 +77,7 @@ class AuthController extends Controller
         ]);
 
         // 2. Crear el nuevo registro en la base de datos
-        $usuario = Usuario::create([
+        Usuario::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'documento' => $request->documento,
@@ -87,16 +87,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // 3. Iniciar sesión automáticamente tras el registro (Guardando nombres)
-        session([
-            'usuario_id' => $usuario->id,
-            'usuario_nombre' => $usuario->nombre,
-            'usuario_apellido' => $usuario->apellido,
-            'rol' => $usuario->rol
-        ]);
-
-        // 4. Redirigir directamente al dashboard según su rol
-        return $this->redirectUserByRole($usuario->rol);
+        // 3. Redirigir al login después de registrarse exitosamente
+        return redirect()->route('login')->with('success', '¡Registro exitoso! Por favor, inicia sesión.');
     }
 
     // Función auxiliar para redirigir según el rol

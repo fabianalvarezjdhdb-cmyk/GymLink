@@ -22,9 +22,9 @@ Route::get('/login', function () {
 
 Route::post('/login', [AuthController::class, 'login']);
 
-// Rutas de Registro
-Route::get('/registro', [AuthController::class, 'showRegister']);
-Route::post('/registro', [AuthController::class, 'register']);
+// Rutas de Registro (Con nombres asignados para evitar conflictos)
+Route::get('/registro', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/registro', [AuthController::class, 'register'])->name('register.store');
 
 // ==========================================
 // MÓDULO DE CLIENTE / USUARIO NORMAL
